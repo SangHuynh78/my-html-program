@@ -3,16 +3,48 @@
 <head>
     <title>Image Slideshow</title>
     <style>
-        /* CSS cho một hiển thị hình ảnh cơ bản */
+        /* CSS cho một hiển thị hình ảnh giữa màn hình */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
         .image-container {
-            margin: 10px;
-            display: inline-block;
+            margin-top: 20px;
+            position: relative;
+            text-align: center;
         }
 
         .image-container img {
             max-width: 200px;
             max-height: 200px;
-            display: none; /* Ẩn tất cả ảnh ban đầu */
+            display: block;
+            cursor: pointer;
+            transition: transform 0.2s; /* Hiệu ứng phóng to */
+        }
+
+        .image-container img:hover {
+            transform: scale(3); /* Khi hover, phóng to hình ảnh */
+        }
+
+        .image-container .title {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            display: none; /* Ẩn tiêu đề ban đầu */
+        }
+
+        .image-container:hover .title {
+            display: block; /* Hiển thị tiêu đề khi hover */
         }
     </style>
 </head>
@@ -26,9 +58,9 @@
     <script>
         // Danh sách các tên tệp ảnh mà người dùng đã cập nhật.
         const imagesList = [
-            'image1.jpg',
-            'image2.jpg',
-            'image3.jpg'
+            { src: 'image1.jpg', title: 'Ảnh 1' },
+            { src: 'image2.jpg', title: 'Ảnh 2' },
+            { src: 'image3.jpg', title: 'Ảnh 3' }
             // Thêm các tên tệp ảnh khác vào đây nếu cần.
         ];
 
@@ -61,9 +93,15 @@
                 imageContainer.className = 'image-container';
 
                 const img = document.createElement('img');
-                img.src = image; // Đường dẫn tới ảnh.
+                img.src = image.src; // Đường dẫn tới ảnh.
+                img.alt = image.title; // Đặt alt của ảnh để hiển thị tiêu đề khi không hiển thị ảnh.
+
+                const title = document.createElement('div');
+                title.className = 'title';
+                title.textContent = image.title;
 
                 imageContainer.appendChild(img);
+                imageContainer.appendChild(title);
                 galleryContainer.appendChild(imageContainer);
             });
         }
