@@ -1,10 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My HTML Program</title>
+    <title>Image Slideshow</title>
+    <style>
+        /* CSS cho một hiển thị hình ảnh cơ bản */
+        .image-container {
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .image-container img {
+            max-width: 200px;
+            max-height: 200px;
+            display: none; /* Ẩn tất cả ảnh ban đầu */
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>This is my HTML program.</p>
+    <h1>Image Slideshow</h1>
+
+    <div id="gallery-container">
+        <!-- Ở đây chúng ta sẽ chèn các hình ảnh từ JavaScript -->
+    </div>
+
+    <script>
+        // Danh sách các tên tệp ảnh mà người dùng đã cập nhật.
+        const imagesList = [
+            'image1.jpg',
+            'image2.jpg',
+            'image3.jpg'
+            // Thêm các tên tệp ảnh khác vào đây nếu cần.
+        ];
+
+        let currentIndex = 0;
+        const galleryContainer = document.getElementById('gallery-container');
+
+        function showNextImage() {
+            if (currentIndex >= imagesList.length) {
+                currentIndex = 0;
+            }
+
+            // Ẩn tất cả ảnh
+            const images = document.querySelectorAll('.image-container img');
+            images.forEach(image => image.style.display = 'none');
+
+            // Hiển thị ảnh tiếp theo
+            const nextImage = images[currentIndex];
+            nextImage.style.display = 'block';
+
+            currentIndex++;
+
+            // Lặp lại hàm sau mỗi 3 giây (3000ms)
+            setTimeout(showNextImage, 3000);
+        }
+
+        // Tạo các thẻ ảnh và thêm chúng vào trang.
+        function createImageElements() {
+            imagesList.forEach(image => {
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'image-container';
+
+                const img = document.createElement('img');
+                img.src = 'images/' + image; // Đường dẫn tới ảnh.
+
+                imageContainer.appendChild(img);
+                galleryContainer.appendChild(imageContainer);
+            });
+        }
+
+        // Gọi hàm để tạo các thẻ ảnh.
+        createImageElements();
+
+        // Bắt đầu hiển thị từng ảnh theo thời gian.
+        showNextImage();
+    </script>
 </body>
 </html>
